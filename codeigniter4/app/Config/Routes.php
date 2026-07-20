@@ -6,8 +6,16 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
+<<<<<<< HEAD
 // Page d'accueil
 $routes->get('/', 'WelcomeController::index');
+=======
+// Routes par défaut
+$routes->get('/', 'WelcomeController::index');
+
+$routes->get('/hello', 'Home::index');
+$routes->get('/hello', 'Home::index');
+>>>>>>> student/luciano
 
 // Authentification client
 $routes->get('/login', 'AuthController::login');

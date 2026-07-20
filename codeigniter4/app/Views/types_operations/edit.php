@@ -11,6 +11,7 @@
         <div class="container">
             <a class="navbar-brand" href="/">Mobile Money</a>
             <div class="d-flex">
+                <a href="/" class="btn btn-outline-light btn-sm me-2">Accueil</a>
                 <a href="/prefixes" class="btn btn-outline-light btn-sm me-2">Préfixes</a>
                 <a href="/types-operations" class="btn btn-outline-light btn-sm me-2">Types d'opérations</a>
                 <a href="/logout" class="btn btn-outline-light btn-sm">Déconnexion</a>

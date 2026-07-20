@@ -7,9 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // Routes par défaut
-$routes->get('/', function() {
-    return redirect()->to('/login');
-});
+$routes->get('/', 'WelcomeController::index');
 
 $routes->get('/hello', 'Home::index');
 $routes->get('/hello', 'Home::index');

@@ -10,6 +10,8 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', function() {
     return redirect()->to('/login');
 });
+
+$routes->get('/hello', 'Home::index');
 $routes->get('/hello', 'Home::index');
 
 // Authentification client

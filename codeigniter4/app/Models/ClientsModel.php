@@ -15,7 +15,7 @@ class ClientsModel extends Model
     protected $createdField     = 'created_at';
     protected $updatedField     = 'updated_at';
 
-    protected $allowedFields = ['nom', 'prenom', 'telephone', 'solde'];
+    protected $allowedFields = ['nom', 'prenom', 'telephone', 'solde', 'role'];
 
     public function findByTelephone($telephone)
     {

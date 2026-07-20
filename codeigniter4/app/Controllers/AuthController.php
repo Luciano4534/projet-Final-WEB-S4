@@ -19,7 +19,8 @@ class AuthController extends BaseController
     public function login()
     {
         if ($this->isLoggedIn()) {
-            return redirect()->to('/prefixes');
+            $role = $this->currentUser['role'] ?? 'client';
+            return redirect()->to($role === 'admin' ? '/dashboard' : '/client/solde');
         }
 
         $data = [
@@ -72,9 +73,13 @@ class AuthController extends BaseController
             'prenom'    => $client->prenom,
             'telephone' => $client->telephone,
             'solde'     => $client->solde,
+            'role'      => $client->role ?? 'client',
         ]);
 
-        return redirect()->to('/prefixes')->with('success', 'Bienvenue, ' . esc($client->prenom) . ' ' . esc($client->nom) . ' !');
+        $role = $client->role ?? 'client';
+        $redirect = $role === 'admin' ? '/dashboard' : '/client/solde';
+
+        return redirect()->to($redirect)->with('success', 'Bienvenue, ' . esc($client->prenom) . ' ' . esc($client->nom) . ' !');
     }
 
     public function logout()

@@ -15,6 +15,7 @@
                 <a href="/client/depot" class="btn btn-outline-light btn-sm me-2">Dépôt</a>
                 <a href="/client/retrait" class="btn btn-outline-light btn-sm me-2">Retrait</a>
                 <a href="/client/transfert" class="btn btn-outline-light btn-sm me-2">Transfert</a>
+                <a href="/client/transfert-multiple" class="btn btn-outline-light btn-sm me-2">Envoi multiple</a>
                 <a href="/client/historique" class="btn btn-outline-light btn-sm me-2">Historique</a>
                 <a href="/logout" class="btn btn-outline-light btn-sm">Déconnexion</a>
             </div>

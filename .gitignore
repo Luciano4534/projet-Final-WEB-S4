@@ -1,0 +1,13 @@
+# Composer
+codeigniter4/vendor/
+
+# CodeIgniter
+codeigniter4/writable/debugbar/
+codeigniter4/writable/logs/
+codeigniter4/writable/session/
+codeigniter4/writable/cache/
+codeigniter4/writable/uploads/
+codeigniter4/writable/database.db
+
+# Fichier d'environnement
+codeigniter4/.env

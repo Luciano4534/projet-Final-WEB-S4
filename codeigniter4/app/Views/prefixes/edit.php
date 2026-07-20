@@ -9,9 +9,11 @@
 <body>
     <nav class="navbar navbar-dark bg-primary mb-4">
         <div class="container">
-            <a class="navbar-brand" href="/">Mobile Money</a>
+            <a class="navbar-brand" href="/dashboard">Mobile Money</a>
             <div class="d-flex">
+                <a href="/dashboard" class="btn btn-outline-light btn-sm me-2">Dashboard</a>
                 <a href="/prefixes" class="btn btn-outline-light btn-sm me-2">Préfixes</a>
+                <a href="/baremes" class="btn btn-outline-light btn-sm me-2">Barèmes</a>
                 <a href="/types-operations" class="btn btn-outline-light btn-sm me-2">Types d'opérations</a>
                 <a href="/logout" class="btn btn-outline-light btn-sm">Déconnexion</a>
             </div>

@@ -30,33 +30,35 @@
         <?php endif; ?>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Liste des Préfixes</h2>
-            <a href="/prefixes/create" class="btn btn-success">+ Ajouter un préfixe</a>
+            <h2>Liste des Barèmes</h2>
+            <a href="/baremes/create" class="btn btn-success">+ Ajouter un barème</a>
         </div>
 
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
-                    <th>Code</th>
-                    <th>Créé le</th>
-                    <th>Modifié le</th>
+                    <th>Type d'opération</th>
+                    <th>Montant min</th>
+                    <th>Montant max</th>
+                    <th>Frais</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($prefixes)): ?>
-                    <tr><td colspan="5" class="text-center">Aucun préfixe trouvé.</td></tr>
+                <?php if (empty($baremes)): ?>
+                    <tr><td colspan="6" class="text-center">Aucun barème trouvé.</td></tr>
                 <?php else: ?>
-                    <?php foreach ($prefixes as $prefixe): ?>
+                    <?php foreach ($baremes as $bareme): ?>
                         <tr>
-                            <td><?= esc($prefixe->id) ?></td>
-                            <td><span class="badge bg-secondary"><?= esc($prefixe->code) ?></span></td>
-                            <td><?= esc($prefixe->created_at) ?></td>
-                            <td><?= esc($prefixe->updated_at) ?></td>
+                            <td><?= esc($bareme->id) ?></td>
+                            <td><span class="badge bg-info"><?= esc($bareme->type_libelle) ?></span></td>
+                            <td><?= number_format($bareme->montant_min, 0, ',', '.') ?> F</td>
+                            <td><?= number_format($bareme->montant_max, 0, ',', '.') ?> F</td>
+                            <td><strong><?= number_format($bareme->frais, 0, ',', '.') ?> F</strong></td>
                             <td>
-                                <a href="/prefixes/edit/<?= $prefixe->id ?>" class="btn btn-warning btn-sm">Modifier</a>
-                                <form action="/prefixes/delete/<?= $prefixe->id ?>" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer ce préfixe ?')">
+                                <a href="/baremes/edit/<?= $bareme->id ?>" class="btn btn-warning btn-sm">Modifier</a>
+                                <form action="/baremes/delete/<?= $bareme->id ?>" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer ce barème ?')">
                                     <?= csrf_field() ?>
                                     <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
                                 </form>

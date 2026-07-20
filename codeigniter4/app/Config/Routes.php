@@ -6,11 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// Routes par défaut
-$routes->get('/', function() {
-    return redirect()->to('/login');
-});
-$routes->get('/hello', 'Home::index');
+// Page d'accueil
+$routes->get('/', 'WelcomeController::index');
 
 // Authentification client
 $routes->get('/login', 'AuthController::login');
@@ -33,6 +30,25 @@ $routes->get('/types-operations/edit/(:num)', 'TypesOperationsController::edit/$
 $routes->post('/types-operations/update/(:num)', 'TypesOperationsController::update/$1');
 $routes->post('/types-operations/delete/(:num)', 'TypesOperationsController::delete/$1');
 
-// Produits (placeholder existant)
-$routes->get('/produits', 'Produits::index');
-$routes->get('/produits/(:num)', 'Produits::show/$1');
+// CRUD Barèmes (côté opérateur)
+$routes->get('/baremes', 'BaremesController::index');
+$routes->get('/baremes/create', 'BaremesController::create');
+$routes->post('/baremes/store', 'BaremesController::store');
+$routes->get('/baremes/edit/(:num)', 'BaremesController::edit/$1');
+$routes->post('/baremes/update/(:num)', 'BaremesController::update/$1');
+$routes->post('/baremes/delete/(:num)', 'BaremesController::delete/$1');
+
+// Dashboard (côté opérateur)
+$routes->get('/dashboard', 'DashboardController::index');
+$routes->get('/dashboard/clients', 'DashboardController::clients');
+$routes->get('/dashboard/gains', 'DashboardController::gains');
+
+// Interface Client
+$routes->get('/client/solde', 'ClientController::solde');
+$routes->get('/client/depot', 'ClientController::depot');
+$routes->post('/client/depot', 'ClientController::depotPost');
+$routes->get('/client/retrait', 'ClientController::retrait');
+$routes->post('/client/retrait', 'ClientController::retraitPost');
+$routes->get('/client/transfert', 'ClientController::transfert');
+$routes->post('/client/transfert', 'ClientController::transfertPost');
+$routes->get('/client/historique', 'ClientController::historique');

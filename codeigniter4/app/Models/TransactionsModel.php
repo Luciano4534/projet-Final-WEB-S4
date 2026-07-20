@@ -34,4 +34,33 @@ class TransactionsModel extends Model
             ->orderBy('transactions.created_at', 'DESC')
             ->findAll();
     }
+
+    public function getTotalTransactions()
+    {
+        return $this->countAllResults();
+    }
+
+    public function getTotalMontant()
+    {
+        $builder = $this->db->table('transactions');
+        $result = $builder->selectSum('montant')->get()->getRow();
+        return $result->montant ?? 0;
+    }
+
+    public function getTotalFrais()
+    {
+        $builder = $this->db->table('transactions');
+        $result = $builder->selectSum('frais')->get()->getRow();
+        return $result->frais ?? 0;
+    }
+
+    public function getFraisByType()
+    {
+        $builder = $this->db->table('transactions');
+        return $builder->select('types_operations.libelle as type_libelle, SUM(transactions.frais) as total_frais, COUNT(transactions.id) as nb_transactions')
+            ->join('types_operations', 'types_operations.id = transactions.type_operation_id')
+            ->groupBy('transactions.type_operation_id')
+            ->get()
+            ->getResult();
+    }
 }

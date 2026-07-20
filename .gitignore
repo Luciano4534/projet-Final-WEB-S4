@@ -1,0 +1,10 @@
+# CodeIgniter writable files
+codeigniter4/writable/session/*
+codeigniter4/writable/logs/*
+codeigniter4/writable/debugbar/*
+
+# Environment
+codeigniter4/.env
+
+# SQLite database
+codeigniter4/writable/database.db

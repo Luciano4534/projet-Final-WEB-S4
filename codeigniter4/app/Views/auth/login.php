@@ -60,6 +60,12 @@
                         Un compte sera créé automatiquement.
                     </small>
                 </div>
+
+                <hr>
+
+                <div class="text-center">
+                    <a href="/" class="btn btn-outline-secondary btn-sm w-100">Retour à l'accueil</a>
+                </div>
             </div>
         </div>
     </div>

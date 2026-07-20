@@ -39,6 +39,8 @@
                 <tr>
                     <th>#</th>
                     <th>Code</th>
+                    <th>Opérateur</th>
+                    <th>Commission %</th>
                     <th>Créé le</th>
                     <th>Modifié le</th>
                     <th>Actions</th>
@@ -46,12 +48,20 @@
             </thead>
             <tbody>
                 <?php if (empty($prefixes)): ?>
-                    <tr><td colspan="5" class="text-center">Aucun préfixe trouvé.</td></tr>
+                    <tr><td colspan="7" class="text-center">Aucun préfixe trouvé.</td></tr>
                 <?php else: ?>
                     <?php foreach ($prefixes as $prefixe): ?>
                         <tr>
                             <td><?= esc($prefixe->id) ?></td>
                             <td><span class="badge bg-secondary"><?= esc($prefixe->code) ?></span></td>
+                            <td>
+                                <?php if ($prefixe->operateur === 'Vodacom'): ?>
+                                    <span class="badge bg-success"><?= esc($prefixe->operateur) ?></span>
+                                <?php else: ?>
+                                    <span class="badge bg-warning text-dark"><?= esc($prefixe->operateur) ?></span>
+                                <?php endif; ?>
+                            </td>
+                            <td><?= $prefixe->commission_pct ?>%</td>
                             <td><?= esc($prefixe->created_at) ?></td>
                             <td><?= esc($prefixe->updated_at) ?></td>
                             <td>

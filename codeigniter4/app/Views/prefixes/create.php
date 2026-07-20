@@ -35,7 +35,31 @@
                 <input type="text" class="form-control" id="code" name="code" required
                        minlength="3" maxlength="10" placeholder="Ex: 033"
                        value="<?= old('code') ?>">
-                <div class="form-text">Exemples : 033, 037, 050...</div>
+                <div class="form-text">Exemples : 033, 031, 099...</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="operateur" class="form-label">Opérateur</label>
+                <input type="text" class="form-control" id="operateur" name="operateur" required
+                       maxlength="50" placeholder="Ex: Vodacom"
+                       value="<?= old('operateur') ?>"
+                       list="operateurs-list">
+                <datalist id="operateurs-list">
+                    <?php if (!empty($operateurs)): ?>
+                        <?php foreach ($operateurs as $op): ?>
+                            <option value="<?= esc($op->operateur) ?>">
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </datalist>
+                <div class="form-text">Nom de l'opérateur (ex: Vodacom, Airtel, Orange, MPesa)</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="commission_pct" class="form-label">Commission inter-opérateur (%)</label>
+                <input type="number" class="form-control" id="commission_pct" name="commission_pct"
+                       min="0" max="100" step="0.1" placeholder="Ex: 2.5"
+                       value="<?= old('commission_pct', '0') ?>">
+                <div class="form-text">Pourcentage supplémentaire appliqué aux transferts vers cet opérateur. Mettre 0 pour l'opérateur principal.</div>
             </div>
 
             <button type="submit" class="btn btn-success">Ajouter</button>

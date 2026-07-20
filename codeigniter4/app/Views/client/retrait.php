@@ -15,6 +15,7 @@
                 <a href="/client/depot" class="btn btn-outline-light btn-sm me-2">Dépôt</a>
                 <a href="/client/retrait" class="btn btn-outline-light btn-sm me-2">Retrait</a>
                 <a href="/client/transfert" class="btn btn-outline-light btn-sm me-2">Transfert</a>
+                <a href="/client/transfert-multiple" class="btn btn-outline-light btn-sm me-2">Envoi multiple</a>
                 <a href="/client/historique" class="btn btn-outline-light btn-sm me-2">Historique</a>
                 <a href="/logout" class="btn btn-outline-light btn-sm">Déconnexion</a>
             </div>
@@ -38,6 +39,9 @@
                     <div class="card-body">
                         <div class="alert alert-info">
                             Solde actuel : <strong><?= number_format($client->solde, 0, ',', '.') ?> F</strong>
+                            <?php if (($client->credit_retrait ?? 0) > 0): ?>
+                                <br><small class="text-success">Crédit retrait disponible : <strong><?= number_format($client->credit_retrait, 0, ',', '.') ?> F</strong> — vos frais de retrait seront réduits ou annulés.</small>
+                            <?php endif; ?>
                         </div>
 
                         <form action="/client/retrait" method="POST">

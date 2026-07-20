@@ -15,6 +15,7 @@
                 <a href="/client/depot" class="btn btn-outline-light btn-sm me-2">Dépôt</a>
                 <a href="/client/retrait" class="btn btn-outline-light btn-sm me-2">Retrait</a>
                 <a href="/client/transfert" class="btn btn-outline-light btn-sm me-2">Transfert</a>
+                <a href="/client/transfert-multiple" class="btn btn-outline-light btn-sm me-2">Envoi multiple</a>
                 <a href="/client/historique" class="btn btn-outline-light btn-sm me-2">Historique</a>
                 <a href="/logout" class="btn btn-outline-light btn-sm">Déconnexion</a>
             </div>
@@ -40,6 +41,11 @@
                         <div class="my-4">
                             <h6 class="text-muted">Solde actuel</h6>
                             <h1 class="display-4 text-success"><?= number_format($client->solde, 0, ',', '.') ?> F</h1>
+                            <?php if (($client->credit_retrait ?? 0) > 0): ?>
+                                <div class="mt-2">
+                                    <span class="badge bg-success">Crédit retrait : <?= number_format($client->credit_retrait, 0, ',', '.') ?> F</span>
+                                </div>
+                            <?php endif; ?>
                         </div>
 
                         <hr>
@@ -53,6 +59,9 @@
                             </div>
                             <div class="col">
                                 <a href="/client/transfert" class="btn btn-info w-100">Transfert</a>
+                            </div>
+                            <div class="col">
+                                <a href="/client/transfert-multiple" class="btn btn-secondary w-100">Envoi multiple</a>
                             </div>
                         </div>
 

@@ -6,6 +6,7 @@ use App\Models\ClientsModel;
 use App\Models\TransactionsModel;
 use App\Models\BaremesModel;
 use App\Models\TypesOperationsModel;
+use App\Models\PrefixesModel;
 
 class ClientController extends BaseController
 {
@@ -13,6 +14,7 @@ class ClientController extends BaseController
     protected $transactionsModel;
     protected $baremesModel;
     protected $typesOpsModel;
+    protected $prefixesModel;
 
     public function __construct()
     {
@@ -20,6 +22,26 @@ class ClientController extends BaseController
         $this->transactionsModel = new TransactionsModel();
         $this->baremesModel      = new BaremesModel();
         $this->typesOpsModel     = new TypesOperationsModel();
+        $this->prefixesModel     = new PrefixesModel();
+    }
+
+    private function getOperateurForTelephone($telephone)
+    {
+        $prefix = substr($telephone, 0, 3);
+        $prefixe = $this->prefixesModel->where('code', $prefix)->first();
+        if ($prefixe) {
+            return [
+                'operateur'      => $prefixe->operateur,
+                'commission_pct' => $prefixe->commission_pct,
+            ];
+        }
+        return null;
+    }
+
+    private function getOwnOperateur()
+    {
+        $ownTelephone = $this->currentUser['telephone'];
+        return $this->getOperateurForTelephone($ownTelephone);
     }
 
     public function solde()
@@ -112,10 +134,25 @@ class ClientController extends BaseController
         }
 
         $bareme = $this->baremesModel->findBareme($typeRetrait->id, $montant);
-        $frais = $bareme ? $bareme->frais : 0;
+        $fraisOriginal = $bareme ? $bareme->frais : 0;
 
         $clientId = $this->currentUser['id'];
         $client = $this->clientsModel->find($clientId);
+
+        $creditDisponible = $client->credit_retrait ?? 0;
+        $frais = $fraisOriginal;
+        $fraisRetraitUtilise = 0;
+
+        if ($creditDisponible > 0 && $fraisOriginal > 0) {
+            if ($creditDisponible >= $fraisOriginal) {
+                $fraisRetraitUtilise = $fraisOriginal;
+                $frais = 0;
+            } else {
+                $fraisRetraitUtilise = $creditDisponible;
+                $frais = $fraisOriginal - $creditDisponible;
+            }
+        }
+
         $total = $montant + $frais;
 
         if ($client->solde < $total) {
@@ -123,18 +160,30 @@ class ClientController extends BaseController
         }
 
         $nouveauSolde = $client->solde - $total;
-        $this->clientsModel->update($clientId, ['solde' => $nouveauSolde]);
+        $nouveauCredit = max(0, $creditDisponible - $fraisRetraitUtilise);
+
+        $this->clientsModel->update($clientId, [
+            'solde'          => $nouveauSolde,
+            'credit_retrait' => $nouveauCredit,
+        ]);
 
         $this->transactionsModel->save([
             'client_id'         => $clientId,
             'type_operation_id' => $typeRetrait->id,
             'montant'           => $montant,
-            'frais'             => $frais,
+            'frais'             => $fraisOriginal,
         ]);
 
         $this->session->set('user.solde', $nouveauSolde);
 
-        return redirect()->to('/client/solde')->with('success', 'Retrait de ' . number_format($montant, 0, ',', '.') . ' F effectué. Frais : ' . number_format($frais, 0, ',', '.') . ' F.');
+        $msg = 'Retrait de ' . number_format($montant, 0, ',', '.') . ' F effectué.';
+        if ($fraisRetraitUtilise > 0) {
+            $msg .= ' Frais de ' . number_format($fraisOriginal, 0, ',', '.') . ' F couverts par votre crédit (reste : ' . number_format($nouveauCredit, 0, ',', '.') . ' F).';
+        } else {
+            $msg .= ' Frais : ' . number_format($frais, 0, ',', '.') . ' F.';
+        }
+
+        return redirect()->to('/client/solde')->with('success', $msg);
     }
 
     public function transfert()
@@ -149,11 +198,12 @@ class ClientController extends BaseController
 
     public function transfertPost()
     {
-        $montant      = $this->request->getPost('montant');
-        $telephoneDest = trim($this->request->getPost('telephone_dest'));
+        $montant         = $this->request->getPost('montant');
+        $telephoneDest   = trim($this->request->getPost('telephone_dest'));
+        $inclureRetrait  = $this->request->getPost('inclure_frais_retrait') === '1';
 
         $rules = [
-            'montant'       => 'required|numeric|greater_than[0]',
+            'montant'        => 'required|numeric|greater_than[0]',
             'telephone_dest' => 'required|min_length[10]|max_length[15]',
         ];
 
@@ -180,11 +230,31 @@ class ClientController extends BaseController
         }
 
         $bareme = $this->baremesModel->findBareme($typeTransfert->id, $montant);
-        $frais = $bareme ? $bareme->frais : 0;
+        $fraisFixe = $bareme ? $bareme->frais : 0;
+
+        $ownOp     = $this->getOwnOperateur();
+        $destOp    = $this->getOperateurForTelephone($telephoneDest);
+        $memeOperateur = ($ownOp && $destOp && $ownOp['operateur'] === $destOp['operateur']);
+
+        $operateurDest = $destOp ? $destOp['operateur'] : '';
+        $fraisCommission = 0;
+        if (!$memeOperateur && $destOp && $destOp['commission_pct'] > 0) {
+            $fraisCommission = $montant * ($destOp['commission_pct'] / 100);
+        }
+
+        $fraisRetraitInclus = 0;
+        if ($memeOperateur && $inclureRetrait) {
+            $typeRetrait = $this->typesOpsModel->where('libelle', 'Retrait')->first();
+            if ($typeRetrait) {
+                $baremeRetrait = $this->baremesModel->findBareme($typeRetrait->id, $montant);
+                $fraisRetraitInclus = $baremeRetrait ? $baremeRetrait->frais : 0;
+            }
+        }
+
+        $total = $montant + $fraisFixe + $fraisCommission + $fraisRetraitInclus;
 
         $clientId = $this->currentUser['id'];
         $client = $this->clientsModel->find($clientId);
-        $total = $montant + $frais;
 
         if ($client->solde < $total) {
             return redirect()->back()->withInput()->with('error', 'Solde insuffisant. Solde actuel : ' . number_format($client->solde, 0, ',', '.') . ' F. Total requis : ' . number_format($total, 0, ',', '.') . ' F (montant + frais).');
@@ -200,12 +270,20 @@ class ClientController extends BaseController
         $nouveauSoldeDestinataire = $destinataire->solde + $montant;
         $this->clientsModel->update($destinataire->id, ['solde' => $nouveauSoldeDestinataire]);
 
+        if ($fraisRetraitInclus > 0) {
+            $nouveauCreditDest = ($destinataire->credit_retrait ?? 0) + $fraisRetraitInclus;
+            $this->clientsModel->update($destinataire->id, ['credit_retrait' => $nouveauCreditDest]);
+        }
+
         $this->transactionsModel->save([
-            'client_id'         => $clientId,
-            'type_operation_id' => $typeTransfert->id,
-            'montant'           => $montant,
-            'frais'             => $frais,
-            'telephone_dest'    => $telephoneDest,
+            'client_id'              => $clientId,
+            'type_operation_id'      => $typeTransfert->id,
+            'montant'                => $montant,
+            'frais'                  => $fraisFixe,
+            'frais_commission'       => $fraisCommission,
+            'frais_retrait_inclus'   => $fraisRetraitInclus,
+            'telephone_dest'         => $telephoneDest,
+            'operateur_dest'         => $operateurDest,
         ]);
 
         $db->transComplete();
@@ -216,7 +294,144 @@ class ClientController extends BaseController
 
         $this->session->set('user.solde', $nouveauSoldeExpediteur);
 
-        return redirect()->to('/client/solde')->with('success', 'Transfert de ' . number_format($montant, 0, ',', '.') . ' F vers ' . esc($destinataire->prenom) . ' ' . esc($destinataire->nom) . ' effectué. Frais : ' . number_format($frais, 0, ',', '.') . ' F.');
+        $msg = 'Transfert de ' . number_format($montant, 0, ',', '.') . ' F vers ' . esc($destinataire->prenom) . ' ' . esc($destinataire->nom) . ' effectué.';
+        $details = [];
+        if ($fraisFixe > 0) {
+            $details[] = 'Frais fixe : ' . number_format($fraisFixe, 0, ',', '.') . ' F';
+        }
+        if ($fraisCommission > 0) {
+            $details[] = 'Commission ' . $operateurDest . ' : ' . number_format($fraisCommission, 0, ',', '.') . ' F';
+        }
+        if ($fraisRetraitInclus > 0) {
+            $details[] = 'Frais de retrait prépayés : ' . number_format($fraisRetraitInclus, 0, ',', '.') . ' F';
+        }
+        if (!empty($details)) {
+            $msg .= ' (' . implode(', ', $details) . ')';
+        }
+
+        return redirect()->to('/client/solde')->with('success', $msg);
+    }
+
+    public function transfertMultiple()
+    {
+        $client = $this->clientsModel->find($this->currentUser['id']);
+        $ownOp = $this->getOwnOperateur();
+
+        $data = [
+            'client'          => $client,
+            'ownOperateur'    => $ownOp ? $ownOp['operateur'] : '',
+            'title'           => 'Envoi multiple',
+        ];
+        return $this->render('client/transfert_multiple', $data);
+    }
+
+    public function transfertMultiplePost()
+    {
+        $destinataires = $this->request->getPost('destinataires');
+
+        if (empty($destinataires) || !is_array($destinataires)) {
+            return redirect()->back()->withInput()->with('error', 'Aucun destinataire fourni.');
+        }
+
+        $clientId = $this->currentUser['id'];
+        $client = $this->clientsModel->find($clientId);
+        $ownOp = $this->getOwnOperateur();
+        $typeTransfert = $this->typesOpsModel->where('libelle', 'Transfert')->first();
+
+        if (!$typeTransfert) {
+            return redirect()->back()->withInput()->with('error', 'Type d\'opération "Transfert" non trouvé.');
+        }
+
+        $totalDebit = 0;
+        $operations = [];
+        $operateurRef = null;
+
+        foreach ($destinataires as $i => $dest) {
+            $telephone = trim($dest['telephone'] ?? '');
+            $montant   = (float) ($dest['montant'] ?? 0);
+
+            if (empty($telephone) || $montant <= 0) {
+                return redirect()->back()->withInput()->with('error', 'Destinataire #' . ($i + 1) . ' : numéro ou montant invalide.');
+            }
+
+            if ($telephone === $this->currentUser['telephone']) {
+                return redirect()->back()->withInput()->with('error', 'Destinataire #' . ($i + 1) . ' : vous ne pouvez pas vous envoyer de l\'argent.');
+            }
+
+            $destinataire = $this->clientsModel->findByTelephone($telephone);
+            if (!$destinataire) {
+                return redirect()->back()->withInput()->with('error', 'Destinataire #' . ($i + 1) . ' : le numéro ' . esc($telephone) . ' n\'existe pas.');
+            }
+
+            $destOp = $this->getOperateurForTelephone($telephone);
+            if (!$destOp) {
+                return redirect()->back()->withInput()->with('error', 'Destinataire #' . ($i + 1) . ' : opérateur non reconnu pour le numéro ' . esc($telephone) . '.');
+            }
+
+            if ($operateurRef === null) {
+                $operateurRef = $destOp['operateur'];
+            } elseif ($destOp['operateur'] !== $operateurRef) {
+                return redirect()->back()->withInput()->with('error', 'Envoi multiple limité à un seul opérateur. Le destinataire #' . ($i + 1) . ' appartient à ' . $destOp['operateur'] . ' alors que les autres sont ' . $operateurRef . '.');
+            }
+
+            $bareme = $this->baremesModel->findBareme($typeTransfert->id, $montant);
+            $fraisFixe = $bareme ? $bareme->frais : 0;
+
+            $memeOperateur = ($ownOp && $ownOp['operateur'] === $destOp['operateur']);
+            $fraisCommission = 0;
+            if (!$memeOperateur && $destOp['commission_pct'] > 0) {
+                $fraisCommission = $montant * ($destOp['commission_pct'] / 100);
+            }
+
+            $ligneTotal = $montant + $fraisFixe + $fraisCommission;
+            $totalDebit += $ligneTotal;
+
+            $operations[] = [
+                'destinataire'     => $destinataire,
+                'montant'          => $montant,
+                'fraisFixe'        => $fraisFixe,
+                'fraisCommission'  => $fraisCommission,
+                'operateurDest'    => $destOp['operateur'],
+                'memeOperateur'    => $memeOperateur,
+            ];
+        }
+
+        if ($client->solde < $totalDebit) {
+            return redirect()->back()->withInput()->with('error', 'Solde insuffisant. Solde : ' . number_format($client->solde, 0, ',', '.') . ' F. Total requis : ' . number_format($totalDebit, 0, ',', '.') . ' F.');
+        }
+
+        $db = \Config\Database::connect();
+        $db->transException(true);
+        $db->transStart();
+
+        $nouveauSolde = $client->solde - $totalDebit;
+        $this->clientsModel->update($clientId, ['solde' => $nouveauSolde]);
+
+        foreach ($operations as $op) {
+            $dest = $op['destinataire'];
+            $this->clientsModel->update($dest->id, ['solde' => $dest->solde + $op['montant']]);
+
+            $this->transactionsModel->save([
+                'client_id'            => $clientId,
+                'type_operation_id'    => $typeTransfert->id,
+                'montant'              => $op['montant'],
+                'frais'                => $op['fraisFixe'],
+                'frais_commission'     => $op['fraisCommission'],
+                'telephone_dest'       => $dest->telephone,
+                'operateur_dest'       => $op['operateurDest'],
+            ]);
+        }
+
+        $db->transComplete();
+
+        if ($db->transStatus() === false) {
+            return redirect()->back()->withInput()->with('error', 'Erreur lors de l\'envoi multiple. Veuillez réessayer.');
+        }
+
+        $this->session->set('user.solde', $nouveauSolde);
+
+        $nbDest = count($operations);
+        return redirect()->to('/client/solde')->with('success', $nbDest . ' transfert(s) effectué(s) pour un total de ' . number_format($totalDebit, 0, ',', '.') . ' F.');
     }
 
     public function historique()

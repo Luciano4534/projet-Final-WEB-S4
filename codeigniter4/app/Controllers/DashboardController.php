@@ -55,10 +55,34 @@ class DashboardController extends BaseController
 
     public function gains()
     {
+        $fraisInternes = $this->transactionsModel->getFraisInternes();
+        $fraisExternes = $this->transactionsModel->getFraisExternes();
+        $montantsParOperateur = $this->transactionsModel->getMontantsParOperateur();
+
+        $totalFraisInternes = 0;
+        foreach ($fraisInternes as $fi) {
+            $totalFraisInternes += $fi->total_frais;
+        }
+
+        $totalFraisExternes = 0;
+        foreach ($fraisExternes as $fe) {
+            $totalFraisExternes += $fe->total_frais;
+        }
+
+        $totalFraisCommission = 0;
+        foreach ($fraisExternes as $fe) {
+            $totalFraisCommission += $fe->total_frais_commission;
+        }
+
         $data = [
-            'fraisByType' => $this->transactionsModel->getFraisByType(),
-            'totalFrais'  => $this->transactionsModel->getTotalFrais(),
-            'title'       => 'Gains de l\'opérateur',
+            'fraisInternes'          => $fraisInternes,
+            'totalFraisInternes'     => $totalFraisInternes,
+            'fraisExternes'          => $fraisExternes,
+            'totalFraisExternes'     => $totalFraisExternes,
+            'totalFraisCommission'   => $totalFraisCommission,
+            'montantsParOperateur'   => $montantsParOperateur,
+            'totalFrais'             => $this->transactionsModel->getTotalFrais() + $this->transactionsModel->getTotalFraisCommission(),
+            'title'                  => 'Gains de l\'opérateur',
         ];
         return $this->render('dashboard/gains', $data);
     }

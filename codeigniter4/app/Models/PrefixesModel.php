@@ -15,5 +15,21 @@ class PrefixesModel extends Model
     protected $createdField     = 'created_at';
     protected $updatedField     = 'updated_at';
 
-    protected $allowedFields = ['code'];
+    protected $allowedFields = ['code', 'operateur', 'commission_pct'];
+
+    public function getOperateurs()
+    {
+        return $this->select('operateur, commission_pct')
+            ->where('operateur !=', '')
+            ->groupBy('operateur')
+            ->orderBy('operateur', 'ASC')
+            ->findAll();
+    }
+
+    public function getPrefixesByOperateur()
+    {
+        return $this->orderBy('operateur', 'ASC')
+            ->orderBy('code', 'ASC')
+            ->findAll();
+    }
 }

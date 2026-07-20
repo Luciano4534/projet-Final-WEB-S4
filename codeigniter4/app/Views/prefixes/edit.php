@@ -41,6 +41,29 @@
                        value="<?= esc($prefixe->code) ?>">
             </div>
 
+            <div class="mb-3">
+                <label for="operateur" class="form-label">Opérateur</label>
+                <input type="text" class="form-control" id="operateur" name="operateur" required
+                       maxlength="50"
+                       value="<?= esc($prefixe->operateur) ?>"
+                       list="operateurs-list">
+                <datalist id="operateurs-list">
+                    <?php if (!empty($operateurs)): ?>
+                        <?php foreach ($operateurs as $op): ?>
+                            <option value="<?= esc($op->operateur) ?>">
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <label for="commission_pct" class="form-label">Commission inter-opérateur (%)</label>
+                <input type="number" class="form-control" id="commission_pct" name="commission_pct"
+                       min="0" max="100" step="0.1"
+                       value="<?= esc($prefixe->commission_pct) ?>">
+                <div class="form-text">Pourcentage appliqué aux transferts vers cet opérateur. Mettre 0 pour l'opérateur principal.</div>
+            </div>
+
             <button type="submit" class="btn btn-warning">Modifier</button>
             <a href="/prefixes" class="btn btn-secondary">Annuler</a>
         </form>

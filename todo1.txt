@@ -1,0 +1,130 @@
+# Taches.md
+
+# Projet Final S4 - Système Mobile Money
+
+## Version 1 (v1)
+
+## Étudiant 1 : Luciano
+
+### 1. Mise en place du projet
+- Initialisation du projet CodeIgniter 4.
+- Configuration de l'environnement de développement.
+- Configuration de SQLite.
+- Mise en place du dépôt Git et gestion des branches.
+- Création et organisation du fichier `base.sql`.
+
+### 2. Base de données
+- Conception du modèle relationnel.
+- Création des tables :
+  - clients
+  - prefixes
+  - types_operations
+  - baremes
+  - transactions
+- Création des relations entre les tables.
+- Ajout des données initiales :
+  - préfixes valides de l'opérateur (033, 037...)
+  - types d'opérations (dépôt, retrait, transfert)
+  - barèmes de frais.
+
+### 3. Côté opérateur
+#### Gestion des préfixes
+- Création du CRUD des préfixes :
+  - ajout d'un préfixe
+  - modification d'un préfixe
+  - suppression d'un préfixe
+  - affichage des préfixes disponibles.
+
+#### Gestion des types d'opérations
+- Création du CRUD des types d'opérations :
+  - dépôt
+  - retrait
+  - transfert.
+
+### 4. Authentification client
+- Développement du système de connexion automatique par numéro de téléphone.
+- Vérification du préfixe du numéro.
+- Création automatique d'un compte client si le numéro n'existe pas.
+- Gestion de la session utilisateur.
+
+---
+
+# Étudiant 2 : Ismael
+
+### 1. Côté opérateur
+
+#### Gestion des barèmes de frais
+- Création du CRUD des barèmes :
+  - montant minimum
+  - montant maximum
+  - frais appliqués.
+- Modification des frais selon les tranches de montant.
+- Mise en place du calcul automatique des frais.
+
+#### Tableau de bord opérateur
+- Affichage de la situation des comptes clients :
+  - liste des clients
+  - solde disponible
+  - nombre de transactions.
+
+- Affichage de la situation des gains :
+  - gains liés aux retraits
+  - gains liés aux transferts
+  - total des frais collectés.
+
+---
+
+### 2. Côté client
+
+#### Gestion du dépôt
+- Création de l'interface de dépôt.
+- Mise à jour automatique du solde.
+- Enregistrement de la transaction.
+
+#### Gestion du retrait
+- Création de l'interface de retrait.
+- Vérification du solde disponible.
+- Calcul automatique des frais.
+- Mise à jour du solde après retrait.
+- Enregistrement de la transaction.
+
+#### Gestion du transfert
+- Création de l'interface de transfert.
+- Vérification du destinataire.
+- Vérification du solde de l'expéditeur.
+- Débit du compte source.
+- Crédit du compte destination.
+- Application automatique des frais.
+- Enregistrement de la transaction.
+
+#### Historique des opérations
+- Affichage de l'historique client :
+  - date
+  - type d'opération
+  - montant
+  - frais.
+
+---
+
+# Travaux communs
+
+- Intégration de Bootstrap ou équivalent.
+- Création des interfaces utilisateur.
+- Tests fonctionnels de toutes les fonctionnalités.
+- Correction des erreurs.
+- Vérification des règles métier.
+- Mise à jour du fichier `Taches.md`.
+- Vérification du fichier `base.sql`.
+- Fusion des branches Git.
+- Tests finaux avant livraison.
+- Création du tag Git `v1`.
+
+---
+
+# Livraison v1
+
+Date de livraison : Juillet 2026
+
+Version livrée :
+- Tag Git : `v1`
+- Branche finale : `main`

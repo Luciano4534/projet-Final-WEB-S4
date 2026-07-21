@@ -51,7 +51,7 @@
                             <td><?= esc($c->nom) ?></td>
                             <td><?= esc($c->prenom) ?></td>
                             <td><span class="badge bg-secondary"><?= esc($c->telephone) ?></span></td>
-                            <td><strong class="<?= $c->solde > 0 ? 'text-success' : 'text-danger' ?>"><?= number_format($c->solde, 0, ',', '.') ?> F</strong></td>
+                            <td><strong class="<?= $c->solde > 0 ? 'text-success' : 'text-danger' ?>"><?= number_format($c->solde, 0, ',', '.') ?> AR</strong></td>
                             <td><?= esc($c->created_at) ?></td>
                         </tr>
                     <?php endforeach; ?>

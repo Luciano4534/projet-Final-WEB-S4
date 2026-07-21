@@ -53,9 +53,9 @@
                         <tr>
                             <td><?= esc($bareme->id) ?></td>
                             <td><span class="badge bg-info"><?= esc($bareme->type_libelle) ?></span></td>
-                            <td><?= number_format($bareme->montant_min, 0, ',', '.') ?> F</td>
-                            <td><?= number_format($bareme->montant_max, 0, ',', '.') ?> F</td>
-                            <td><strong><?= number_format($bareme->frais, 0, ',', '.') ?> F</strong></td>
+                            <td><?= number_format($bareme->montant_min, 0, ',', '.') ?> AR</td>
+                            <td><?= number_format($bareme->montant_max, 0, ',', '.') ?> AR</td>
+                            <td><strong><?= number_format($bareme->frais, 0, ',', '.') ?> AR</strong></td>
                             <td>
                                 <a href="/baremes/edit/<?= $bareme->id ?>" class="btn btn-warning btn-sm">Modifier</a>
                                 <form action="/baremes/delete/<?= $bareme->id ?>" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer ce barème ?')">

@@ -39,7 +39,7 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="alert alert-info">
-                            Solde actuel : <strong><?= number_format($client->solde, 0, ',', '.') ?> F</strong>
+                            Solde actuel : <strong><?= number_format($client->solde, 0, ',', '.') ?> AR</strong>
                             <br><small>Opérateur : <strong><?= esc($ownOperateur) ?></strong> — Tous les destinataires doivent appartenir à cet opérateur.</small>
                         </div>
 
@@ -60,7 +60,7 @@
                                                 <div class="form-text operateur-label text-info"></div>
                                             </div>
                                             <div class="col-md-4">
-                                                <label class="form-label">Montant (F)</label>
+                                                <label class="form-label">Montant (AR)</label>
                                                 <input type="number" class="form-control montant-input" name="destinataires[0][montant]"
                                                        required min="1" step="1" placeholder="Ex: 5000">
                                             </div>
@@ -75,7 +75,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <button type="button" class="btn btn-outline-success" id="btn-add-dest">+ Ajouter un destinataire</button>
                                 <div class="text-end">
-                                    <strong>Total débité : <span id="total-debit">0</span> F</strong>
+                                    <strong>Total débité : <span id="total-debit">0</span> AR</strong>
                                     <br><small id="total-detail"></small>
                                 </div>
                             </div>
@@ -190,7 +190,7 @@
                                 <div class="form-text operateur-label text-info"></div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Montant (F)</label>
+                                <label class="form-label">Montant (AR)</label>
                                 <input type="number" class="form-control montant-input" name="destinataires[${rowIndex}][montant]"
                                        required min="1" step="1" placeholder="Ex: 5000">
                             </div>

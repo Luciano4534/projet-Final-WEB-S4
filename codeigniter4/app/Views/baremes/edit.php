@@ -43,21 +43,21 @@
             </div>
 
             <div class="mb-3">
-                <label for="montant_min" class="form-label">Montant minimum (F)</label>
+                <label for="montant_min" class="form-label">Montant minimum (AR)</label>
                 <input type="number" class="form-control" id="montant_min" name="montant_min" required
                        min="0" step="1"
                        value="<?= old('montant_min', $bareme->montant_min) ?>">
             </div>
 
             <div class="mb-3">
-                <label for="montant_max" class="form-label">Montant maximum (F)</label>
+                <label for="montant_max" class="form-label">Montant maximum (AR)</label>
                 <input type="number" class="form-control" id="montant_max" name="montant_max" required
                        min="1" step="1"
                        value="<?= old('montant_max', $bareme->montant_max) ?>">
             </div>
 
             <div class="mb-3">
-                <label for="frais" class="form-label">Frais (F)</label>
+                <label for="frais" class="form-label">Frais (AR)</label>
                 <input type="number" class="form-control" id="frais" name="frais" required
                        min="0" step="1"
                        value="<?= old('frais', $bareme->frais) ?>">

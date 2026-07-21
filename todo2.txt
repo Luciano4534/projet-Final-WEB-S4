@@ -1,0 +1,68 @@
+=========================================
+TODO - APPLICATION DE PORTEFEUILLE MOBILE
+=========================================
+
+=====================
+LUCIANO
+=====================
+
+[ ] Login avec le numéro de téléphone
+    - Authentification avec le numéro
+    - Vérification de l'existence du numéro
+    - Création de la session utilisateur
+    - Gestion des erreurs
+
+[ ] Consultation du solde
+    - Afficher le solde actuel
+    - Mettre à jour le solde après chaque opération
+
+[ ] Dépôt
+    - Formulaire de dépôt
+    - Dépôt validé automatiquement
+    - Mise à jour du solde
+    - Enregistrement dans l'historique
+
+[ ] Interface utilisateur
+    - Page de connexion
+    - Tableau de bord
+    - Interface de dépôt
+
+
+=====================
+ISMAEL
+=====================
+
+[ ] Retrait
+    - Vérifier le solde disponible
+    - Retrait validé automatiquement
+    - Mise à jour du solde
+    - Enregistrement dans l'historique
+
+[ ] Transfert
+    - Vérifier l'existence du destinataire
+    - Vérifier le solde
+    - Débiter l'expéditeur
+    - Créditer le destinataire
+    - Enregistrer la transaction
+
+[ ] Historique
+    - Afficher toutes les opérations
+    - Trier par date
+    - Afficher le type d'opération
+    - Afficher le montant, la date et le statut
+
+[ ] Interface utilisateur
+    - Interface de retrait
+    - Interface de transfert
+    - Page d'historique
+
+
+=====================
+COMMUN
+=====================
+
+[ ] Concevoir la base de données
+[ ] Définir les règles métier
+[ ] Effectuer les tests
+[ ] Corriger les bugs
+[ ] Préparer la démonstration

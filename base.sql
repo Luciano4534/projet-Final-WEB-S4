@@ -49,6 +49,13 @@ CREATE TABLE clients (
     updated_at      TEXT    DEFAULT (datetime('now'))
 );
 
+CREATE TABLE settings (
+     cle           TEXT    PRIMARY KEY,
+     valeur        TEXT    NOT NULL DEFAULT '',
+     created_at    TEXT    DEFAULT (datetime('now')),
+     updated_at      TEXT    DEFAULT (datetime('now'))
+);
+
 CREATE TABLE transactions (
     id                      INTEGER PRIMARY KEY AUTOINCREMENT,
     client_id               INTEGER NOT NULL,

@@ -11,11 +11,7 @@
         <div class="container">
             <a class="navbar-brand" href="/dashboard">Mobile Money</a>
             <div class="d-flex">
-<<<<<<< HEAD
                 <a href="/dashboard" class="btn btn-outline-light btn-sm me-2">Dashboard</a>
-=======
-                <a href="/" class="btn btn-outline-light btn-sm me-2">Accueil</a>
->>>>>>> student/luciano
                 <a href="/prefixes" class="btn btn-outline-light btn-sm me-2">Préfixes</a>
                 <a href="/baremes" class="btn btn-outline-light btn-sm me-2">Barèmes</a>
                 <a href="/types-operations" class="btn btn-outline-light btn-sm me-2">Types d'opérations</a>

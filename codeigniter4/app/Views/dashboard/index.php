@@ -48,7 +48,7 @@
                 <div class="card text-white bg-success shadow">
                     <div class="card-body text-center">
                         <h6 class="card-title">Montant total</h6>
-                        <h2 class="display-6"><?= number_format($totalMontant, 0, ',', '.') ?> F</h2>
+                        <h2 class="display-6"><?= number_format($totalMontant, 0, ',', '.') ?> AR</h2>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 <div class="card text-white bg-warning shadow">
                     <div class="card-body text-center">
                         <h6 class="card-title">Frais perçus</h6>
-                        <h2 class="display-6"><?= number_format($totalFrais, 0, ',', '.') ?> F</h2>
+                        <h2 class="display-6"><?= number_format($totalFrais, 0, ',', '.') ?> AR</h2>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                                         <tr>
                                             <td><span class="badge bg-info"><?= esc($ft->type_libelle) ?></span></td>
                                             <td><?= $ft->nb_transactions ?></td>
-                                            <td><strong><?= number_format($ft->total_frais, 0, ',', '.') ?> F</strong></td>
+                                            <td><strong><?= number_format($ft->total_frais, 0, ',', '.') ?> AR</strong></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>

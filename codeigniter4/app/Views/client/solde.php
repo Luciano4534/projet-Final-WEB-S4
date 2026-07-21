@@ -40,10 +40,10 @@
 
                         <div class="my-4">
                             <h6 class="text-muted">Solde actuel</h6>
-                            <h1 class="display-4 text-success"><?= number_format($client->solde, 0, ',', '.') ?> F</h1>
+                            <h1 class="display-4 text-success"><?= number_format($client->solde, 0, ',', '.') ?> AR</h1>
                             <?php if (($client->credit_retrait ?? 0) > 0): ?>
                                 <div class="mt-2">
-                                    <span class="badge bg-success">Crédit retrait : <?= number_format($client->credit_retrait, 0, ',', '.') ?> F</span>
+                                    <span class="badge bg-success">Crédit retrait : <?= number_format($client->credit_retrait, 0, ',', '.') ?> AR</span>
                                 </div>
                             <?php endif; ?>
                         </div>

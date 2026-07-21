@@ -54,11 +54,7 @@
                             </div>
                             <h2 class="card-title text-success fw-bold mb-3">Espace Client</h2>
                             <p class="card-text text-muted">
-<<<<<<< HEAD
                                 Consultez votre solde, effectuez des dépôts, retraits et transferts.
-=======
-                                Connectez-vous avec votre numéro de téléphone et gérez vos transactions.
->>>>>>> student/luciano
                             </p>
                             <div class="mt-4">
                                 <span class="btn btn-success btn-lg px-5">Se connecter</span>
@@ -70,11 +66,7 @@
 
             <!-- Espace Opérateur -->
             <div class="col-md-5">
-<<<<<<< HEAD
                 <a href="/dashboard" class="text-decoration-none">
-=======
-                <a href="/prefixes" class="text-decoration-none">
->>>>>>> student/luciano
                     <div class="card welcome-card shadow h-100">
                         <div class="card-body text-center p-5">
                             <div class="icon-circle bg-primary bg-gradient text-white">
@@ -84,11 +76,7 @@
                             </div>
                             <h2 class="card-title text-primary fw-bold mb-3">Espace Opérateur</h2>
                             <p class="card-text text-muted">
-<<<<<<< HEAD
                                 Gérez les comptes clients, les barèmes et consultez les statistiques.
-=======
-                                Gérez les préfixes et les types d'opérations de l'opérateur.
->>>>>>> student/luciano
                             </p>
                             <div class="mt-4">
                                 <span class="btn btn-primary btn-lg px-5">Accéder</span>

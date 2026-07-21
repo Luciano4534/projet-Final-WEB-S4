@@ -74,7 +74,7 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            'auth' => ['except' => ['/login', '/', '/dashboard', '/dashboard/*']],
+            'auth' => ['except' => ['/login', '/', '/dashboard', '/dashboard/*', '/prefixes', '/prefixes/*', '/types-operations', '/types-operations/*', '/baremes', '/baremes/*']],
         ],
         'after' => [
             // 'honeypot',

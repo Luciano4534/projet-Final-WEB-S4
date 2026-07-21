@@ -28,7 +28,7 @@
                 <div class="card text-white bg-success shadow">
                     <div class="card-body text-center">
                         <h6 class="card-title">Total frais perçus</h6>
-                        <h2 class="display-6"><?= number_format($totalFrais, 0, ',', '.') ?> F</h2>
+                        <h2 class="display-6"><?= number_format($totalFrais, 0, ',', '.') ?> AR</h2>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="card text-white bg-primary shadow">
                     <div class="card-body text-center">
                         <h6 class="card-title">Frais internes</h6>
-                        <h3><?= number_format($totalFraisInternes, 0, ',', '.') ?> F</h3>
+                        <h3><?= number_format($totalFraisInternes, 0, ',', '.') ?> AR</h3>
                         <small>Dépôt, Retrait, Transferts même opérateur</small>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                 <div class="card text-white bg-warning shadow">
                     <div class="card-body text-center">
                         <h6 class="card-title">Frais inter-opérateurs</h6>
-                        <h3><?= number_format($totalFraisExternes, 0, ',', '.') ?> F</h3>
+                        <h3><?= number_format($totalFraisExternes, 0, ',', '.') ?> AR</h3>
                         <small>Frais fixes + Commissions %</small>
                     </div>
                 </div>
@@ -74,12 +74,12 @@
                                         <tr>
                                             <td><span class="badge bg-primary"><?= esc($fi->type_libelle) ?></span></td>
                                             <td><?= $fi->nb_transactions ?></td>
-                                            <td><strong><?= number_format($fi->total_frais, 0, ',', '.') ?> F</strong></td>
+                                            <td><strong><?= number_format($fi->total_frais, 0, ',', '.') ?> AR</strong></td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <tr class="table-active">
                                         <td colspan="2"><strong>Total interne</strong></td>
-                                        <td><strong class="text-primary"><?= number_format($totalFraisInternes, 0, ',', '.') ?> F</strong></td>
+                                        <td><strong class="text-primary"><?= number_format($totalFraisInternes, 0, ',', '.') ?> AR</strong></td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -111,15 +111,15 @@
                                         <tr>
                                             <td><span class="badge bg-warning text-dark"><?= esc($fe->operateur_dest) ?></span></td>
                                             <td><?= $fe->nb_transactions ?></td>
-                                            <td><?= number_format($fe->total_frais_fixe, 0, ',', '.') ?> F</td>
-                                            <td><?= number_format($fe->total_frais_commission, 0, ',', '.') ?> F</td>
-                                            <td><strong><?= number_format($fe->total_frais, 0, ',', '.') ?> F</strong></td>
+                                            <td><?= number_format($fe->total_frais_fixe, 0, ',', '.') ?> AR</td>
+                                            <td><?= number_format($fe->total_frais_commission, 0, ',', '.') ?> AR</td>
+                                            <td><strong><?= number_format($fe->total_frais, 0, ',', '.') ?> AR</strong></td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <tr class="table-active">
                                         <td colspan="3"><strong>Total externe</strong></td>
-                                        <td><strong><?= number_format($totalFraisCommission, 0, ',', '.') ?> F</strong></td>
-                                        <td><strong class="text-warning"><?= number_format($totalFraisExternes, 0, ',', '.') ?> F</strong></td>
+                                        <td><strong><?= number_format($totalFraisCommission, 0, ',', '.') ?> AR</strong></td>
+                                        <td><strong class="text-warning"><?= number_format($totalFraisExternes, 0, ',', '.') ?> AR</strong></td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -162,17 +162,17 @@
                                         <tr>
                                             <td><span class="badge bg-warning text-dark"><?= esc($mpo->operateur_dest) ?></span></td>
                                             <td><?= $mpo->nb_transactions ?></td>
-                                            <td><?= number_format($mpo->total_montant, 0, ',', '.') ?> F</td>
-                                            <td><?= number_format($mpo->total_frais_fixe, 0, ',', '.') ?> F</td>
-                                            <td><?= number_format($mpo->total_commission, 0, ',', '.') ?> F</td>
-                                            <td><strong class="text-danger"><?= number_format($mpo->total_a_verser, 0, ',', '.') ?> F</strong></td>
+                                            <td><?= number_format($mpo->total_montant, 0, ',', '.') ?> AR</td>
+                                            <td><?= number_format($mpo->total_frais_fixe, 0, ',', '.') ?> AR</td>
+                                            <td><?= number_format($mpo->total_commission, 0, ',', '.') ?> AR</td>
+                                            <td><strong class="text-danger"><?= number_format($mpo->total_a_verser, 0, ',', '.') ?> AR</strong></td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <tr class="table-active">
                                         <td colspan="2"><strong>Total général</strong></td>
-                                        <td><strong><?= number_format($grandTotalMontant, 0, ',', '.') ?> F</strong></td>
+                                        <td><strong><?= number_format($grandTotalMontant, 0, ',', '.') ?> AR</strong></td>
                                         <td colspan="2"></td>
-                                        <td><strong class="text-danger"><?= number_format($grandTotalAVerser, 0, ',', '.') ?> F</strong></td>
+                                        <td><strong class="text-danger"><?= number_format($grandTotalAVerser, 0, ',', '.') ?> AR</strong></td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>

@@ -101,7 +101,7 @@ class ClientController extends BaseController
 
         $this->session->set('user.solde', $nouveauSolde);
 
-        return redirect()->to('/client/solde')->with('success', 'Dépôt de ' . number_format($montant, 0, ',', '.') . ' F effectué avec succès. Frais : ' . number_format($frais, 0, ',', '.') . ' F.');
+        return redirect()->to('/client/solde')->with('success', 'Dépôt de ' . number_format($montant, 0, ',', '.') . ' AR effectué avec succès. Frais : ' . number_format($frais, 0, ',', '.') . ' AR.');
     }
 
     public function retrait()
@@ -156,7 +156,7 @@ class ClientController extends BaseController
         $total = $montant + $frais;
 
         if ($client->solde < $total) {
-            return redirect()->back()->withInput()->with('error', 'Solde insuffisant. Solde actuel : ' . number_format($client->solde, 0, ',', '.') . ' F. Total requis : ' . number_format($total, 0, ',', '.') . ' F (montant + frais).');
+            return redirect()->back()->withInput()->with('error', 'Solde insuffisant. Solde actuel : ' . number_format($client->solde, 0, ',', '.') . ' AR. Total requis : ' . number_format($total, 0, ',', '.') . ' AR (montant + frais).');
         }
 
         $nouveauSolde = $client->solde - $total;
@@ -176,11 +176,11 @@ class ClientController extends BaseController
 
         $this->session->set('user.solde', $nouveauSolde);
 
-        $msg = 'Retrait de ' . number_format($montant, 0, ',', '.') . ' F effectué.';
+        $msg = 'Retrait de ' . number_format($montant, 0, ',', '.') . ' AR effectué.';
         if ($fraisRetraitUtilise > 0) {
-            $msg .= ' Frais de ' . number_format($fraisOriginal, 0, ',', '.') . ' F couverts par votre crédit (reste : ' . number_format($nouveauCredit, 0, ',', '.') . ' F).';
+            $msg .= ' Frais de ' . number_format($fraisOriginal, 0, ',', '.') . ' AR couverts par votre crédit (reste : ' . number_format($nouveauCredit, 0, ',', '.') . ' AR).';
         } else {
-            $msg .= ' Frais : ' . number_format($frais, 0, ',', '.') . ' F.';
+            $msg .= ' Frais : ' . number_format($frais, 0, ',', '.') . ' AR.';
         }
 
         return redirect()->to('/client/solde')->with('success', $msg);
@@ -257,7 +257,7 @@ class ClientController extends BaseController
         $client = $this->clientsModel->find($clientId);
 
         if ($client->solde < $total) {
-            return redirect()->back()->withInput()->with('error', 'Solde insuffisant. Solde actuel : ' . number_format($client->solde, 0, ',', '.') . ' F. Total requis : ' . number_format($total, 0, ',', '.') . ' F (montant + frais).');
+            return redirect()->back()->withInput()->with('error', 'Solde insuffisant. Solde actuel : ' . number_format($client->solde, 0, ',', '.') . ' AR. Total requis : ' . number_format($total, 0, ',', '.') . ' AR (montant + frais).');
         }
 
         $db = \Config\Database::connect();
@@ -294,16 +294,16 @@ class ClientController extends BaseController
 
         $this->session->set('user.solde', $nouveauSoldeExpediteur);
 
-        $msg = 'Transfert de ' . number_format($montant, 0, ',', '.') . ' F vers ' . esc($destinataire->prenom) . ' ' . esc($destinataire->nom) . ' effectué.';
+        $msg = 'Transfert de ' . number_format($montant, 0, ',', '.') . ' AR vers ' . esc($destinataire->prenom) . ' ' . esc($destinataire->nom) . ' effectué.';
         $details = [];
         if ($fraisFixe > 0) {
-            $details[] = 'Frais fixe : ' . number_format($fraisFixe, 0, ',', '.') . ' F';
+            $details[] = 'Frais fixe : ' . number_format($fraisFixe, 0, ',', '.') . ' AR';
         }
         if ($fraisCommission > 0) {
-            $details[] = 'Commission ' . $operateurDest . ' : ' . number_format($fraisCommission, 0, ',', '.') . ' F';
+            $details[] = 'Commission ' . $operateurDest . ' : ' . number_format($fraisCommission, 0, ',', '.') . ' AR';
         }
         if ($fraisRetraitInclus > 0) {
-            $details[] = 'Frais de retrait prépayés : ' . number_format($fraisRetraitInclus, 0, ',', '.') . ' F';
+            $details[] = 'Frais de retrait prépayés : ' . number_format($fraisRetraitInclus, 0, ',', '.') . ' AR';
         }
         if (!empty($details)) {
             $msg .= ' (' . implode(', ', $details) . ')';
@@ -397,7 +397,7 @@ class ClientController extends BaseController
         }
 
         if ($client->solde < $totalDebit) {
-            return redirect()->back()->withInput()->with('error', 'Solde insuffisant. Solde : ' . number_format($client->solde, 0, ',', '.') . ' F. Total requis : ' . number_format($totalDebit, 0, ',', '.') . ' F.');
+            return redirect()->back()->withInput()->with('error', 'Solde insuffisant. Solde : ' . number_format($client->solde, 0, ',', '.') . ' AR. Total requis : ' . number_format($totalDebit, 0, ',', '.') . ' AR.');
         }
 
         $db = \Config\Database::connect();
@@ -431,7 +431,7 @@ class ClientController extends BaseController
         $this->session->set('user.solde', $nouveauSolde);
 
         $nbDest = count($operations);
-        return redirect()->to('/client/solde')->with('success', $nbDest . ' transfert(s) effectué(s) pour un total de ' . number_format($totalDebit, 0, ',', '.') . ' F.');
+        return redirect()->to('/client/solde')->with('success', $nbDest . ' transfert(s) effectué(s) pour un total de ' . number_format($totalDebit, 0, ',', '.') . ' AR.');
     }
 
     public function historique()

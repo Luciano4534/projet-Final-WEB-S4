@@ -53,11 +53,11 @@
                         <tr>
                             <td><?= esc($t->created_at) ?></td>
                             <td><span class="badge bg-info"><?= esc($t->type_libelle) ?></span></td>
-                            <td><?= number_format($t->montant, 0, ',', '.') ?> F</td>
-                            <td><?= number_format($t->frais, 0, ',', '.') ?> F</td>
+                            <td><?= number_format($t->montant, 0, ',', '.') ?> AR</td>
+                            <td><?= number_format($t->frais, 0, ',', '.') ?> AR</td>
                             <td>
                                 <?php if (($t->frais_commission ?? 0) > 0): ?>
-                                    <span class="text-warning"><?= number_format($t->frais_commission, 0, ',', '.') ?> F</span>
+                                    <span class="text-warning"><?= number_format($t->frais_commission, 0, ',', '.') ?> AR</span>
                                 <?php else: ?>
                                     -
                                 <?php endif; ?>

@@ -41,7 +41,7 @@
                             <?= csrf_field() ?>
 
                             <div class="mb-3">
-                                <label for="montant" class="form-label">Montant à déposer (F)</label>
+                                <label for="montant" class="form-label">Montant à déposer (AR)</label>
                                 <input type="number" class="form-control" id="montant" name="montant" required
                                        min="1" step="1" placeholder="Ex: 5000"
                                        value="<?= old('montant') ?>">

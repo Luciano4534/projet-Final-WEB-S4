@@ -38,9 +38,9 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="alert alert-info">
-                            Solde actuel : <strong><?= number_format($client->solde, 0, ',', '.') ?> F</strong>
+                            Solde actuel : <strong><?= number_format($client->solde, 0, ',', '.') ?> AR</strong>
                             <?php if (($client->credit_retrait ?? 0) > 0): ?>
-                                <br><small class="text-success">Crédit retrait disponible : <strong><?= number_format($client->credit_retrait, 0, ',', '.') ?> F</strong></small>
+                                <br><small class="text-success">Crédit retrait disponible : <strong><?= number_format($client->credit_retrait, 0, ',', '.') ?> AR</strong></small>
                             <?php endif; ?>
                         </div>
 
@@ -60,7 +60,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="montant" class="form-label">Montant à transférer (F)</label>
+                                <label for="montant" class="form-label">Montant à transférer (AR)</label>
                                 <input type="number" class="form-control" id="montant" name="montant" required
                                        min="1" step="1" placeholder="Ex: 5000"
                                        value="<?= old('montant') ?>">
